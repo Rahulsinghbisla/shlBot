@@ -23,7 +23,7 @@ def chat_endpoint(request: ChatRequest):
     }
 
     try:
-        output = chat.invoke(graph_input,{"configurable": {"thread_id": "1"}})
+        output = chat.invoke(graph_input)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Agent execution failed: {str(e)}")
 

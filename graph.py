@@ -7,11 +7,9 @@ from dotenv import load_dotenv
 from schema import ChatResponse, QueryFilters,Recommendation
 from nodes import shl_recommender, clarification_node, supervisior_node, general_node, condition,check_level,condition2
 from state import llm_cls
-from langgraph.checkpoint.memory import InMemorySaver 
 
 load_dotenv()
 
-checkpointer = InMemorySaver()
 
 graph = StateGraph(llm_cls)
 graph.add_node("supervisior",supervisior_node)
@@ -39,7 +37,7 @@ graph.add_conditional_edges(
 graph.add_edge("shl_recommender", END)
 graph.add_edge( "general_node", END)
 graph.add_edge("clarification_node", "__end__")
-chat = graph.compile(checkpointer=checkpointer)
+chat = graph.compile()
 
 # while True: 
 #     user_input = input("User: ")

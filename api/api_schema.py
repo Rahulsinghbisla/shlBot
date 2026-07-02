@@ -1,13 +1,13 @@
 from pydantic import BaseModel
 from typing import List, Literal, Optional
-from schema import Recommendation   # tera existing schema
+from schema import Recommendation   
 
 class ChatMessage(BaseModel):
     role: Literal["user", "assistant"]
     content: str
 
 class ChatRequest(BaseModel):
-    messages: List[ChatMessage]   # poori history client se aayegi, stateless
+    messages: List[ChatMessage]   
 
 class ChatReply(BaseModel):
     reply: str
