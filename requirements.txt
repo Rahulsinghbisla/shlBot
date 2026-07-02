@@ -132,7 +132,7 @@ tiktoken==0.13.0
     # via langchain-openai
 tqdm==4.68.3
     # via openai
-
+typing==3.10.0.0
     # via shlagent (pyproject.toml)
 typing-extensions==4.15.0
     # via
