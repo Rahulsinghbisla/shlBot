@@ -5,7 +5,7 @@ from langchain_core.messages import HumanMessage, SystemMessage, AIMessage, Base
 from langgraph.graph.message import add_messages
 from typing import TypedDict, Annotated
 from dotenv import load_dotenv
-from schema import ChatResponse, CheckLevelClass, QueryFilters,SupervisiorClass,Recommendation
+from schema import ChatResponse, QueryFilters,SupervisiorClass,Recommendation,LevelCheckResult
 from state import llm_cls
 
 load_dotenv()
@@ -106,16 +106,26 @@ def condition(state: llm_cls):
         return "check_level"
     
 def check_level(state: llm_cls):
-    print("check_level invoked")
-    
-    llm_response = model.with_structured_output(CheckLevelClass).invoke(
-        [
-            SystemMessage(content=CHECK_LEVEL_PROMPT),
-            *state["messages"]
-        ]
+    print("check_level_node invoked")
+    messages = state["messages"]
+
+    result = model.with_structured_output(LevelCheckResult).invoke([
+        SystemMessage(content=CHECK_LEVEL_PROMPT),
+        *messages
+    ])
+
+    structured = ChatResponse(
+        reply=result.reply,
+        recommendations=[],
+        end_of_conversation=False
     )
-    print(f"Check Level Result: {llm_response.level} | Is Level Found: {llm_response.is_level}")
-    return {"level": llm_response.level, "is_level": llm_response.is_level}
+
+    return {
+        "messages": [AIMessage(content=result.reply)],
+        "structured_response": structured,
+        "level": result.level,
+        "is_level": result.is_level,
+    }
 
 def condition2(state: llm_cls):
     print("In the condition2 function, state:")
@@ -129,16 +139,23 @@ def condition2(state: llm_cls):
 def clarification_node(state: llm_cls):
     print("clarification_node invoked")
     
-    clarification_text = "I can certainly help with that. What seniority level are you looking for? (e.g., Entry-Level, Mid-Professional, Manager, Executive)"
-    
+    messages = state["messages"]
+
+    result = model.with_structured_output(LevelCheckResult).invoke([
+        SystemMessage(content=CHECK_LEVEL_PROMPT),
+        *messages
+    ])
+
     structured = ChatResponse(
-        reply=clarification_text,
+        reply=result.reply,
         recommendations=[],
         end_of_conversation=False
     )
-    
+
     return {
-        "messages": [AIMessage(content=clarification_text)],
-        "structured_response": structured
+        "messages": [AIMessage(content=result.reply)],
+        "structured_response": structured,
+        "level": result.level,
+        "is_level": result.is_level,
     }
     

@@ -24,3 +24,8 @@ class SupervisiorClass(BaseModel):
 class CheckLevelClass(BaseModel):
     level: str  
     is_level:bool
+
+class LevelCheckResult(BaseModel):
+    level: str = Field(default="", description="...")
+    is_level: bool = Field(description="...")
+    reply: str = Field(description="...")
