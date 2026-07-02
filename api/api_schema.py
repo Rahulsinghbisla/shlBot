@@ -10,6 +10,7 @@ class ChatRequest(BaseModel):
     messages: List[ChatMessage]   
 
 class ChatReply(BaseModel):
+    role: Literal["assistant"]
     reply: str
     recommendations: List[Recommendation] = []
     end_of_conversation: bool = False

@@ -35,6 +35,7 @@ def chat_endpoint(request: ChatRequest):
         return ChatReply(reply=last_ai_msg.content, recommendations=[], end_of_conversation=False)
 
     return ChatReply(
+        role="assistant",
         reply=structured.reply,
         recommendations=structured.recommendations,
         end_of_conversation=structured.end_of_conversation,
