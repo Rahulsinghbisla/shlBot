@@ -132,9 +132,9 @@ tiktoken==0.13.0
     # via langchain-openai
 tqdm==4.68.3
     # via openai
-typing==3.10.0.0
+
     # via shlagent (pyproject.toml)
-typing-extensions==4.15.0
+
     # via
     #   fastapi
     #   langchain-core
@@ -144,7 +144,7 @@ typing-extensions==4.15.0
     #   pydantic
     #   pydantic-core
     #   typing-inspection
-typing-inspection==0.4.2
+
     # via
     #   fastapi
     #   pydantic
@@ -166,3 +166,4 @@ xxhash==3.8.0
     #   langsmith
 zstandard==0.25.0
     # via langsmith
+typing
